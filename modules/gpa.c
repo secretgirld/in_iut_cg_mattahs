@@ -1,8 +1,15 @@
 #include "gpa.h"
 
 const double gradeBoundaries[] = {80, 75, 70, 65, 60, 55, 50, 45, 40};
-const double gradePoints[] = {4.00, 3.75, 3.50, 3.25, 3.00, 2.75, 2.50, 2.25, 2.00};
-const char *gradeLetters[] = {"A+", "A", "A-", "B+", "B", "B-", "C+", "C", "D"};
+
+const double gradePoints[] = {
+    4.00, 3.75, 3.50, 3.25, 3.00,
+    2.75, 2.50, 2.25, 2.00
+};
+
+const char *gradeLetters[] = {
+    "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "D"
+};
 
 double getPercentage(CourseResult result)
 {
@@ -64,4 +71,17 @@ double calculateGPA(CourseResult results[], int n_results)
         return 0.0;
 
     return weighted_points / total_credits;
+}
+
+double calculateRequiredGPA(double current_cgpa, double completed_credits,
+                            double target_cgpa, double remaining_credits)
+{
+    double total_credits = completed_credits + remaining_credits;
+    double target_points = target_cgpa * total_credits;
+    double current_points = current_cgpa * completed_credits;
+
+    if (remaining_credits <= 0.0)
+        return 0.0;
+
+    return (target_points - current_points) / remaining_credits;
 }
