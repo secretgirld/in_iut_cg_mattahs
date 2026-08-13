@@ -1,33 +1,20 @@
-#include <stdio.h>
-#include <string.h>
-#include "student.h"
-#include "gpa.h"
+#ifndef STUDENT_H
+#define STUDENT_H
 
-Student createStudent(char id[], char name[])
+#include "courseResult.h"
+
+typedef struct Student
 {
-    Student student;
+    char id[20];
+    char name[80];
+    CourseResult courseResults[100];
+    int n_results;
+    double cgpa;
+} Student;
 
-    strcpy(student.id, id);
-    strcpy(student.name, name);
+Student createStudent(char id[], char name[]);
+void addCourseResultToStudent(Student *student, CourseResult result);
+void viewStudent(Student student);
+void sortStudentsByCGPA(Student students[], int n_students);
 
-    student.n_results = 0;
-    student.cgpa = 0.0;
-
-    return student;
-}
-
-void addCourseResultToStudent(Student *student, CourseResult result)
-{
-    student->courseResults[student->n_results] = result;
-    student->n_results = student->n_results + 1;
-
-    student->cgpa =
-        calculateGPA(student->courseResults, student->n_results);
-}
-
-void viewStudent(Student student)
-{
-    printf("ID: %s\n", student.id);
-    printf("Name: %s\n", student.name);
-    printf("CGPA: %.2f\n", student.cgpa);
-}
+#endif
